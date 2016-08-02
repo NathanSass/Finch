@@ -14,6 +14,7 @@ public class Tweet {
 
     private String body;
     private long uid;
+
     private User user;
 
     private String createdAt;
@@ -32,7 +33,6 @@ public class Tweet {
 
         return tweet;
     }
-
 
     public static ArrayList<Tweet> fromJsonArray(JSONArray jsonArray) {
         ArrayList<Tweet> tweets = new ArrayList<>();
@@ -53,6 +53,7 @@ public class Tweet {
         return tweets;
     }
 
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -63,5 +64,9 @@ public class Tweet {
 
     public String getBody() {
         return body;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
