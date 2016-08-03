@@ -2,6 +2,8 @@ package com.codepath.apps.finch.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
@@ -9,7 +11,7 @@ import android.widget.ListView;
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
-import com.codepath.apps.finch.adapters.TweetsArrayAdapter;
+import com.codepath.apps.finch.adapters.TweetsAdapter;
 import com.codepath.apps.finch.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -23,7 +25,8 @@ import cz.msebera.android.httpclient.Header;
 public class TimelineActivity extends AppCompatActivity {
 
     private TwitterClient client;
-    private TweetsArrayAdapter aTweets;
+    private RecyclerView rvTweets;
+    private TweetsAdapter adapter;
     private ArrayList<Tweet> tweets;
     private ListView lvTweets;
 
@@ -35,10 +38,13 @@ public class TimelineActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // find ui
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
         tweets = new ArrayList<>();
-        aTweets = new TweetsArrayAdapter(this, tweets);
-        lvTweets.setAdapter(aTweets);
+
+        adapter = new TweetsAdapter(this, tweets);
+
+        rvTweets.setAdapter(adapter);
+        rvTweets.setLayoutManager(new LinearLayoutManager(this));
 
         client = TwitterApplication.getRestClient();
 
@@ -49,12 +55,12 @@ public class TimelineActivity extends AppCompatActivity {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
+                int curSize = adapter.getItemCount();
 
-                ArrayList<Tweet> tweets = Tweet.fromJsonArray(json);
-                Log.v("DEBUG", "Tweeeeeets");
-                Log.v("DEBUG", tweets.get(1).toString());
-                aTweets.addAll(tweets);
+                ArrayList<Tweet> newTweets = Tweet.fromJsonArray(json);
+
+                tweets.addAll(newTweets);
+                adapter.notifyItemRangeInserted(curSize, newTweets.size());
 
             }
 
