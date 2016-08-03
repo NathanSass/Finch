@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".activities.SearchActivity">
+    <item
+        android:id="@+id/action_compose"
+        android:orderInCategory="100"
+        android:icon="@drawable/feather"
+        android:title="@string/title_activity_compose"
+        app:showAsAction="always"/>
+</menu>
