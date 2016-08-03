@@ -28,6 +28,7 @@ public class TweetsAdapter extends
         public ImageView ivProfileImage;
         public TextView tvUserName;
         public TextView tvBody;
+        public TextView tvTweetAge;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -39,6 +40,7 @@ public class TweetsAdapter extends
             ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
+            tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
 
         }
     }
@@ -81,6 +83,9 @@ public class TweetsAdapter extends
 
         TextView tvBody = viewHolder.tvBody;
         tvBody.setText(tweet.getBody());
+
+        TextView tvTweetAge = viewHolder.tvTweetAge;
+        tvTweetAge.setText(tweet.getTweetAge());
 
         ImageView ivProfileImage = viewHolder.ivProfileImage;
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);

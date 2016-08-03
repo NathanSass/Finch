@@ -1,5 +1,9 @@
 package com.codepath.apps.finch.models;
 
+import android.util.Log;
+
+import com.codepath.apps.finch.util.Util;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +31,7 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON( jsonObject.getJSONObject("user") );
+            tweet.getTweetAge();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,9 +58,9 @@ public class Tweet {
         return tweets;
     }
 
-
-    public String getCreatedAt() {
-        return createdAt;
+    public String getTweetAge() {
+        String tweetAge = Util.getRelativeTimeAgo(createdAt);
+        return tweetAge;
     }
 
     public long getUid() {

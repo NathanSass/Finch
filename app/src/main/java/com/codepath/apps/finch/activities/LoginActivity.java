@@ -1,4 +1,4 @@
-package com.codepath.apps.finch;
+package com.codepath.apps.finch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.codepath.apps.finch.activities.TimelineActivity;
+import com.codepath.apps.finch.R;
+import com.codepath.apps.finch.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
