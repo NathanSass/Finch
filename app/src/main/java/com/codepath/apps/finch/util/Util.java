@@ -1,6 +1,9 @@
 package com.codepath.apps.finch.util;
 
 import android.text.format.DateUtils;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,5 +29,9 @@ public class Util {
         }
 
         return relativeDate;
+    }
+
+    public static void handleJsonFailure(JSONObject e) {
+        Log.d("DEBUG", e.toString());
     }
 }

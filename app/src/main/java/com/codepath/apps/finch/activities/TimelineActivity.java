@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,6 +16,7 @@ import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.adapters.TweetsAdapter;
 import com.codepath.apps.finch.models.Tweet;
 import com.codepath.apps.finch.util.EndlessRecyclerViewScrollListener;
+import com.codepath.apps.finch.util.Util;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -31,7 +31,6 @@ import cz.msebera.android.httpclient.Header;
 public class TimelineActivity extends AppCompatActivity {
 
     private TwitterClient client;
-//    private RecyclerView rvTweets;
     private TweetsAdapter adapter;
     private ArrayList<Tweet> tweets;
     private Context context;
@@ -79,7 +78,7 @@ public class TimelineActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        handleTweetJsonFailure(errorResponse);
+                        Util.handleJsonFailure(errorResponse);
                     }
                 });
             }
@@ -95,7 +94,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-               handleTweetJsonFailure(errorResponse);
+                Util.handleJsonFailure(errorResponse);
             }
         });
     }
@@ -108,10 +107,6 @@ public class TimelineActivity extends AppCompatActivity {
         tweets.addAll(newTweets);
         adapter.notifyItemRangeInserted(curSize, newTweets.size());
 
-    }
-
-    public void handleTweetJsonFailure(JSONObject e) {
-        Log.d("DEBUG", e.toString());
     }
 
     @Override
