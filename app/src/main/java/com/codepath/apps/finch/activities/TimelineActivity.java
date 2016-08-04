@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.TwitterApplication;
@@ -21,6 +22,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -30,10 +32,14 @@ import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
 
+    private final int REQUEST_CODE = 99;
+
     private TwitterClient client;
     private TweetsAdapter adapter;
     private ArrayList<Tweet> tweets;
     private Context context;
+
+    LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.rvTweets) RecyclerView rvTweets;
     @Override
@@ -61,7 +67,7 @@ public class TimelineActivity extends AppCompatActivity {
         adapter = new TweetsAdapter(this, tweets);
 
         rvTweets.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
 
         rvTweets.setLayoutManager(linearLayoutManager);
 
@@ -127,11 +133,29 @@ public class TimelineActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_compose) {
             Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_CODE);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            int code = data.getExtras().getInt("code", 0);
+
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            addTweetToTimelineStart(tweet);
+
+            rvTweets.smoothScrollToPosition(0);
+
+            Toast.makeText(this, "Tweet: " + tweet.getBody(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void addTweetToTimelineStart(Tweet tweet) {
+        tweets.add(0, tweet);
+        adapter.notifyItemInserted(0);
+    }
 }

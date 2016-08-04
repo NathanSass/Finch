@@ -2,17 +2,23 @@ package com.codepath.apps.finch.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 /**
  * Created by nathansass on 8/2/16.
  */
+
+@Parcel
 public class User {
-    private String name;
+    String name;
 
-    private long uid;
+    long uid;
 
-    private String screenName;
-    private String profileImageUrl;
+    String screenName;
+    String profileImageUrl;
+
+    public User(){}
+
     public static User fromJSON(JSONObject json) {
         User u = new User();
         try {

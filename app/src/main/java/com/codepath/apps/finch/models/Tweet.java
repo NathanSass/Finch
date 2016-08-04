@@ -1,12 +1,11 @@
 package com.codepath.apps.finch.models;
 
-import android.util.Log;
-
 import com.codepath.apps.finch.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
@@ -14,14 +13,17 @@ import java.util.ArrayList;
  * Created by nathansass on 8/2/16.
  */
 
+@Parcel
 public class Tweet {
 
-    private String body;
-    private long uid;
+    String body;
+    long uid;
 
-    private User user;
+    User user;
 
-    private String createdAt;
+    String createdAt;
+
+    public Tweet() {}
 
     public static Tweet fromJSON(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
@@ -31,7 +33,6 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON( jsonObject.getJSONObject("user") );
-            tweet.getTweetAge();
         } catch (JSONException e) {
             e.printStackTrace();
         }
