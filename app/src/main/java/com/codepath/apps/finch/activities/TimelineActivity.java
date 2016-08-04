@@ -3,6 +3,7 @@ package com.codepath.apps.finch.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,8 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private Context context;
 
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeRefreshLayout;
+
     LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.rvTweets) RecyclerView rvTweets;
@@ -58,7 +61,25 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient();
 
         setUpRecyclerView();
+        setupSwipeRefreshListener();
         populateTimeline();
+
+    }
+    public void setupSwipeRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+
+                populateTimeline();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
     }
 
@@ -96,6 +117,8 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 handleTweetJsonSuccess(json);
+
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override

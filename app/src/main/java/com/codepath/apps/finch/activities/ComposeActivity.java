@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
@@ -25,6 +26,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
@@ -32,10 +34,15 @@ public class ComposeActivity extends AppCompatActivity {
     private TwitterClient client;
     private Context context;
 
+    private final int TWEET_LENGTH = 140;
+
     @BindView(R.id.etTweetBody)
     EditText etTweetBody;
     @BindView(R.id.pbLoading)
     ProgressBar progressBar;
+
+    @BindView(R.id.tvCharCount)
+    TextView tvCharCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,13 @@ public class ComposeActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    @OnTextChanged(R.id.etTweetBody)
+    public void textChanged (CharSequence text) {
+        int remaining = TWEET_LENGTH - text.length();
+
+        tvCharCount.setText("" + remaining);
     }
 
     @OnClick(R.id.submit)
