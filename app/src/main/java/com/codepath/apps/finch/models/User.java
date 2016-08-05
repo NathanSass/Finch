@@ -3,6 +3,7 @@ package com.codepath.apps.finch.models;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +21,8 @@ public class User extends Model{
     @Column(name = "Name")
     public String name;
 
-    @Column(name = "Uid")
-    public long uid;
+    @Column(name = "Uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public Long uid;
 
     String screenName;
     String profileImageUrl;
@@ -58,5 +59,12 @@ public class User extends Model{
 
     public String getScreenName() {
         return screenName;
+    }
+
+    public static User fromUserId(Long userId) {
+        return new Select()
+                .from(User.class)
+                .where("Uid = ?", userId)
+                .limit(1).executeSingle();
     }
 }

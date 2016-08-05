@@ -23,17 +23,21 @@ import java.util.List;
 @Parcel(analyze={Tweet.class})
 public class Tweet extends Model{
 
+
     @Column(name = "Body")
     public String body;
 
-    @Column(name = "Uid")
-    public long uid;
+    @Column(name = "Uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public Long uid;
 
-    @Column(name = "User", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
-    public User user;
+    @Column(name = "user_id")
+    public Long user_id;
+
+    private User user;
 
     @Column(name = "CreatedAt")
     String createdAt;
+
 
     public Tweet() { super(); }
 
@@ -45,6 +49,7 @@ public class Tweet extends Model{
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON( jsonObject.getJSONObject("user") );
+            tweet.user_id = tweet.user.getUid();
 
             tweet.save();
         } catch (JSONException e) {
@@ -76,7 +81,8 @@ public class Tweet extends Model{
     public static List<Tweet> getAllTweetsFromDB() {
         return new Select()
                 .from(Tweet.class)
-                .orderBy("CreatedAt ASC")
+                .orderBy("CreatedAt DESC")
+                .limit("25")
                 .execute();
     }
 
@@ -94,6 +100,11 @@ public class Tweet extends Model{
     }
 
     public User getUser() {
-        return user;
+        if (user != null) {
+            return user;
+        } else {
+            return User.fromUserId(user_id);
+        }
+//        return user != null ? user : User.fromUserId(user_id);
     }
 }
