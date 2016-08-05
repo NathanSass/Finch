@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
@@ -18,6 +19,7 @@ import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.adapters.TweetsAdapter;
 import com.codepath.apps.finch.models.Tweet;
 import com.codepath.apps.finch.util.EndlessRecyclerViewScrollListener;
+import com.codepath.apps.finch.util.ItemClickSupport;
 import com.codepath.apps.finch.util.Util;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -69,6 +71,25 @@ public class TimelineActivity extends AppCompatActivity {
         setupSwipeRefreshListener();
 
         populateTimelineFromAPI();
+
+        setTweetItemClickListener();
+    }
+
+    public void setTweetItemClickListener() {
+        ItemClickSupport.addTo(rvTweets).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                        Toast.makeText(context, "item click " + position, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(TimelineActivity.this, TweetActivity.class);
+
+                        intent.putExtra("tweet", Parcels.wrap(tweets.get(position)));
+
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     public void setupSwipeRefreshListener() {
