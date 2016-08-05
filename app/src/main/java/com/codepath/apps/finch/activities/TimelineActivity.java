@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,7 +18,6 @@ import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.adapters.TweetsAdapter;
 import com.codepath.apps.finch.models.Tweet;
-import com.codepath.apps.finch.util.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.finch.util.Util;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -61,8 +61,10 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient();
 
         setUpRecyclerView();
-        setupSwipeRefreshListener();
-        populateTimeline();
+
+        populateTimelineFromDB();
+//        setupSwipeRefreshListener();
+//        populateTimeline();
 
     }
     public void setupSwipeRefreshListener() {
@@ -92,24 +94,24 @@ public class TimelineActivity extends AppCompatActivity {
 
         rvTweets.setLayoutManager(linearLayoutManager);
 
-        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-
-                long maxId = tweets.get(tweets.size() - 1).getUid();
-
-                client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                      handleTweetJsonSuccess(json);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Util.handleJsonFailure(errorResponse);
-                    }
-                });
-            }
-        });
+//        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//
+//                long maxId = tweets.get(tweets.size() - 1).getUid();
+//
+//                client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
+//                    public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+//                      handleTweetJsonSuccess(json);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                        Util.handleJsonFailure(errorResponse);
+//                    }
+//                });
+//            }
+//        });
     }
 
     public void populateTimeline() {
@@ -126,6 +128,17 @@ public class TimelineActivity extends AppCompatActivity {
                 Util.handleJsonFailure(errorResponse);
             }
         });
+    }
+
+    public void populateTimelineFromDB() {
+        ArrayList<Tweet> dbTweets = (ArrayList<Tweet>) Tweet.getAllTweetsFromDB();
+
+        Log.v("DEBUG", "dbTweets: " + dbTweets.toString());
+
+        Toast.makeText(this, "DB Tweet count: " + dbTweets.size(), Toast.LENGTH_SHORT).show();
+
+        tweets.addAll(dbTweets);
+        adapter.notifyDataSetChanged();
     }
 
     public void handleTweetJsonSuccess(JSONArray json) {

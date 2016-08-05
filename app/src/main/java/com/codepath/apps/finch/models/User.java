@@ -1,5 +1,9 @@
 package com.codepath.apps.finch.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -8,16 +12,21 @@ import org.parceler.Parcel;
  * Created by nathansass on 8/2/16.
  */
 
-@Parcel
-public class User {
-    String name;
 
-    long uid;
+@Table(name = "Users")
+@Parcel(analyze={User.class})
+public class User extends Model{
+
+    @Column(name = "Name")
+    public String name;
+
+    @Column(name = "Uid")
+    public long uid;
 
     String screenName;
     String profileImageUrl;
 
-    public User(){}
+    public User(){ super(); }
 
     public static User fromJSON(JSONObject json) {
         User u = new User();
@@ -26,6 +35,8 @@ public class User {
             u.uid = json.getLong("id");
             u.screenName = json.getString("screen_name");
             u.profileImageUrl = json.getString("profile_image_url");
+
+            u.save();
         } catch (JSONException e) {
             e.printStackTrace();
         }

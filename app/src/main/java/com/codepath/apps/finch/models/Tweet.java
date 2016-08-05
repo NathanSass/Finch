@@ -1,5 +1,9 @@
 package com.codepath.apps.finch.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.codepath.apps.finch.util.Util;
 
 import org.json.JSONArray;
@@ -8,22 +12,30 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nathansass on 8/2/16.
  */
 
-@Parcel
-public class Tweet {
 
-    String body;
-    long uid;
+@Table(name = "Tweets")
+@Parcel(analyze={Tweet.class})
+public class Tweet extends Model{
 
-    User user;
+    @Column(name = "Body")
+    public String body;
 
+    @Column(name = "Uid")
+    public long uid;
+
+    @Column(name = "User", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    public User user;
+
+    @Column(name = "CreatedAt")
     String createdAt;
 
-    public Tweet() {}
+    public Tweet() { super(); }
 
     public static Tweet fromJSON(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
@@ -33,6 +45,8 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON( jsonObject.getJSONObject("user") );
+
+            tweet.save();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -57,6 +71,13 @@ public class Tweet {
 
         }
         return tweets;
+    }
+
+    public static List<Tweet> getAllTweetsFromDB() {
+        return new Select()
+                .from(Tweet.class)
+                .orderBy("CreatedAt ASC")
+                .execute();
     }
 
     public String getTweetAge() {
