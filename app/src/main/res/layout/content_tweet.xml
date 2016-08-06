@@ -55,4 +55,13 @@
 
     </RelativeLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_reply_black_24dp"
+        android:text=""
+        android:id="@+id/btnReply"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

@@ -33,8 +33,9 @@ public class ComposeActivity extends AppCompatActivity {
 
     private TwitterClient client;
     private Context context;
-
     private final int TWEET_LENGTH = 140;
+
+    long inReplyToStatusId;
 
     @BindView(R.id.etTweetBody)
     EditText etTweetBody;
@@ -51,6 +52,8 @@ public class ComposeActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        inReplyToStatusId = getIntent().getLongExtra("inReplyToStatusId", 0);
 
         ButterKnife.bind(this);
 
@@ -81,7 +84,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         progressBar.setVisibility( ProgressBar.VISIBLE );
 
-        client.postNewTweet(tweetBody, new JsonHttpResponseHandler() {
+        client.postNewTweet(inReplyToStatusId, tweetBody, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 progressBar.setVisibility( ProgressBar.INVISIBLE );
