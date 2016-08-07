@@ -30,6 +30,7 @@ public class TweetsAdapter extends
         public TextView tvUserName;
         public TextView tvBody;
         public TextView tvTweetAge;
+        public ImageView ivMediaImage;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -42,6 +43,7 @@ public class TweetsAdapter extends
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
+            ivMediaImage = (ImageView) itemView.findViewById(R.id.ivMedia);
 
         }
     }
@@ -89,7 +91,14 @@ public class TweetsAdapter extends
         tvTweetAge.setText(tweet.getTweetAge());
 
         ImageView ivProfileImage = viewHolder.ivProfileImage;
+        viewHolder.ivProfileImage.setImageResource(0);
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new CircleTransform()).into(ivProfileImage);
+
+        ImageView ivMedia = viewHolder.ivMediaImage;
+        viewHolder.ivMediaImage.setImageResource(0);
+        if ( tweet.getMediaUrl() != null ) {
+            Picasso.with(getContext()).load(tweet.getMediaUrl()).into(ivMedia);
+        }
     }
 
     // Returns the total count of items in the list
