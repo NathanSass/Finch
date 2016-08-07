@@ -69,7 +69,7 @@ public class TweetActivity extends AppCompatActivity {
         // go to compose activity and send along a tweet id with it
 
         Intent i = new Intent(TweetActivity.this, ComposeActivity.class);
-        i.putExtra("inReplyToStatusId", tweet.getUid());
+        i.putExtra("replyToTweet", Parcels.wrap(tweet));
 
         startActivityForResult(i, REQUEST_CODE);
     }

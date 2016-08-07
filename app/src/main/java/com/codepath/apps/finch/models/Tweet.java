@@ -23,7 +23,6 @@ import java.util.List;
 @Parcel(analyze={Tweet.class})
 public class Tweet extends Model{
 
-
     @Column(name = "Body")
     public String body;
 

@@ -21,10 +21,13 @@ public class User extends Model{
     @Column(name = "Name")
     public String name;
 
+    @Column(name= "Screen_name")
+    public String screenName;
+
     @Column(name = "Uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public Long uid;
 
-    String screenName;
+    @Column(name = "Profile_image_url")
     String profileImageUrl;
 
     public User(){ super(); }

@@ -2,6 +2,7 @@ package com.codepath.apps.finch;
 
 import android.content.Context;
 
+import com.codepath.apps.finch.models.Tweet;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -59,15 +60,17 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(apiUrl, params, handler);
 	}
 
-    public void postNewTweet(long inReplyToStatusId, String tweet, AsyncHttpResponseHandler handler) {
+    public void postNewTweet(Tweet replyToTweet, String tweetBody, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
-		params.put("status", tweet);
 
-        if (inReplyToStatusId > 0) {
-            params.put("in_reply_to_status_id", inReplyToStatusId);
-            // TODO: also prepend status wiht usernam
+        if (replyToTweet != null) {
+            params.put("in_reply_to_status_id", replyToTweet.getUid());
+            params.put("status", "@" + replyToTweet.getUser().getScreenName() + " " + tweetBody);
+
+        } else {
+            params.put("status", tweetBody);
         }
 
         getClient().post(apiUrl, params, handler);
