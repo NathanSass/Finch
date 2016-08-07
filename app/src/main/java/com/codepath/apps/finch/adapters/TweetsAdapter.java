@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.models.Tweet;
+import com.codepath.apps.finch.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class TweetsAdapter extends
         tvTweetAge.setText(tweet.getTweetAge());
 
         ImageView ivProfileImage = viewHolder.ivProfileImage;
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new CircleTransform()).into(ivProfileImage);
     }
 
     // Returns the total count of items in the list
