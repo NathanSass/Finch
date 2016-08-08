@@ -42,7 +42,7 @@ public class Tweet extends Model{
     @Column(name = "Media_url")
     String mediaUrl;
 
-    @Column(name = "Video_url")
+    @Column(name = "Video_url") // not used currently
     String videoUrl;
 
     public Tweet() { super(); }

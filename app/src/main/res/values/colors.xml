@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#3848a1</color>
+    <color name="colorAccent">#e74d9b</color>
+    <color name="toolBarBackground">#f6f8ff</color>
+    <color name="toolBarTitleColor">#51515c</color>
+    <color name="twitBlue">#4099FF</color>
+    <color name="lightText">#898989</color>
+    <color name="appBackground">#fdfcff</color>
+</resources>

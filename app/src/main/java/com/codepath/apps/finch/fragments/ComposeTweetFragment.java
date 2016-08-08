@@ -74,7 +74,7 @@ public class ComposeTweetFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_compose, container);
+        View view = inflater.inflate(R.layout.activity_compose, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
 

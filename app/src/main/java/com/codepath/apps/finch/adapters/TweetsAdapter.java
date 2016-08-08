@@ -31,6 +31,7 @@ public class TweetsAdapter extends
         public TextView tvBody;
         public TextView tvTweetAge;
         public ImageView ivMediaImage;
+        public TextView tvScreenName;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -44,6 +45,7 @@ public class TweetsAdapter extends
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
             ivMediaImage = (ImageView) itemView.findViewById(R.id.ivMedia);
+            tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
 
         }
     }
@@ -83,6 +85,9 @@ public class TweetsAdapter extends
 
         TextView tvUserName = viewHolder.tvUserName;
         tvUserName.setText(tweet.getUser().getName());
+
+        TextView tvScreenName = viewHolder.tvScreenName;
+        tvScreenName.setText("@" + tweet.getUser().getScreenName());
 
         TextView tvBody = viewHolder.tvBody;
         tvBody.setText(tweet.getBody());
