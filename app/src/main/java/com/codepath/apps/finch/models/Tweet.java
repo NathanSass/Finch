@@ -1,5 +1,7 @@
 package com.codepath.apps.finch.models;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -32,13 +34,16 @@ public class Tweet extends Model{
     @Column(name = "user_id")
     public Long user_id;
 
-    private User user;
+    public User user;
 
     @Column(name = "CreatedAt")
     String createdAt;
 
     @Column(name = "Media_url")
     String mediaUrl;
+
+    @Column(name = "Video_url")
+    String videoUrl;
 
     public Tweet() { super(); }
 
@@ -59,13 +64,22 @@ public class Tweet extends Model{
                     tweet.mediaUrl = mediaArr.getJSONObject(0).getString("media_url");
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
+
+            try { // These are for the video URLS, but currently unable to get that working
+                JSONArray urlArr = jsonObject.getJSONObject("entities").getJSONArray("urls");
+                tweet.videoUrl = urlArr.getJSONObject(0).getString("display_url");
+                Log.v("DEBUG", "URLARR: " + tweet.videoUrl);
+            } catch (JSONException e) {
+//                e.printStackTrace();
+            }
+
 
 
             tweet.save();
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         return tweet;

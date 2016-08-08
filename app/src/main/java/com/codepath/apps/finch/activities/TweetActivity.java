@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
+import com.codepath.apps.finch.fragments.ComposeTweetFragment;
 import com.codepath.apps.finch.models.Tweet;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TweetActivity extends AppCompatActivity {
+public class TweetActivity extends AppCompatActivity implements ComposeTweetFragment.TweetDetailCommunicator {
 
     private final int REQUEST_CODE = 12;
 
@@ -66,24 +67,25 @@ public class TweetActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnReply)
     public void replyClick() {
-        // go to compose activity and send along a tweet id with it
 
-        Intent i = new Intent(TweetActivity.this, ComposeActivity.class);
-        i.putExtra("replyToTweet", Parcels.wrap(tweet));
-
-        startActivityForResult(i, REQUEST_CODE);
+        showComposeDialog();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            int code = data.getExtras().getInt("code", 0);
-
-            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-
-            Toast.makeText(this, "Tweet: " + tweet.getBody(), Toast.LENGTH_SHORT).show();
-        }
+    private void showComposeDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance("Compose New Tweet", tweet);
+        composeTweetFragment.show(fm, "activity_compose");
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+//            int code = data.getExtras().getInt("code", 0);
+//
+//            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+//
+//        }
+//    }
 
     public void setUpUi() {
         tvUserName.setText(tweet.getUser().getName());
@@ -92,4 +94,10 @@ public class TweetActivity extends AppCompatActivity {
         Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
     }
 
+
+    @Override
+    public void onTweetPost(Tweet tweet) {
+        Intent i = new Intent(TweetActivity.this, TimelineActivity.class);
+        startActivity(i);
+    }
 }

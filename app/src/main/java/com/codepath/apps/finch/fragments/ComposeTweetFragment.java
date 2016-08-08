@@ -1,5 +1,6 @@
 package com.codepath.apps.finch.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -48,17 +49,26 @@ public class ComposeTweetFragment extends DialogFragment {
     @BindView(R.id.tvCharCount)
     TextView tvCharCount;
 
+    Activity activity;
+
     public ComposeTweetFragment() {}
 
-    public static ComposeTweetFragment newInstance(String title, Tweet replyToTweet) {
+    public static ComposeTweetFragment newInstance(String title, Tweet incomingReplyTweet) {
         ComposeTweetFragment frag = new ComposeTweetFragment();
         Bundle args = new Bundle();
 
         args.putString("title", title);
-        args.putParcelable("replyToTweet", Parcels.wrap(replyToTweet));
+        args.putParcelable("replyToTweet", Parcels.wrap(incomingReplyTweet));
+//        Log.v("DEBUG", "replyTOTWeet in composetweetfrag: " + replyToTweet.toString());
 
         frag.setArguments(args);
         return frag;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     @Nullable
@@ -75,8 +85,12 @@ public class ComposeTweetFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if ((replyToTweet = savedInstanceState.getParcelable("replyToTweet")) != null)
-            replyToTweet = savedInstanceState.getParcelable("replyToTweet");
+        try {
+            replyToTweet = Parcels.unwrap(getArguments().getParcelable("replyToTweet"));
+        } catch (NullPointerException e) {
+            replyToTweet = null;
+//            e.printStackTrace();
+        }
 
         client = TwitterApplication.getRestClient();
 
@@ -103,13 +117,16 @@ public class ComposeTweetFragment extends DialogFragment {
 
                 Tweet tweet = Tweet.fromJSON(response);
 
-                Communicator communicator = (Communicator) getActivity();
-                communicator.onTweetPost(tweet);
+                if (replyToTweet != null) {
+                    /* Routes Back to Timeline, then reloads it */
+                    ((TweetDetailCommunicator) activity).onTweetPost();
 
-                //TODO: add a second communicator for handleing reply to tweets
+                } else {
+                    /* Goes to timeline then adds existing tweet to the adapter*/
+                    ((TimelineCommunicator) activity).onTweetPost(tweet);
+                }
 
                 dismiss();
-
             }
 
             @Override
@@ -125,7 +142,11 @@ public class ComposeTweetFragment extends DialogFragment {
         unbinder.unbind();
     }
 
-    public interface Communicator {
+    public interface TimelineCommunicator {
         void onTweetPost(Tweet tweet);
+    }
+
+    public interface TweetDetailCommunicator {
+        void onTweetPost();
     }
 }

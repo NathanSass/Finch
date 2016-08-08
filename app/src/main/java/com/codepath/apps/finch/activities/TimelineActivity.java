@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 
-public class TimelineActivity extends AppCompatActivity implements ComposeTweetFragment.Communicator{
+public class TimelineActivity extends AppCompatActivity implements ComposeTweetFragment.TimelineCommunicator {
 
     private final int REQUEST_CODE = 99;
 
