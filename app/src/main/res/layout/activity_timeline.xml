@@ -20,17 +20,40 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/toolBarBackground"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="finch"
-                android:textSize="20sp"
-                android:fontFamily="sans-serif-bold"
-                android:textColor="@color/toolBarTitleColor"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:layout_gravity="center"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_centerHorizontal="true"
+
+                    android:src="@drawable/finch_icon"/>
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:scaleType="centerCrop"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+
+                    android:src="@drawable/finch_icon2"/>
+            </RelativeLayout>
+            <!--<TextView-->
+            <!--android:id="@+id/toolbar_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="finch"-->
+            <!--android:textSize="20sp"-->
+            <!--android:fontFamily="sans-serif-bold"-->
+            <!--android:textColor="@color/toolBarTitleColor"-->
+            <!--style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"-->
+            <!--android:layout_gravity="center"/>-->
+
+
 
         </android.support.v7.widget.Toolbar>
 
