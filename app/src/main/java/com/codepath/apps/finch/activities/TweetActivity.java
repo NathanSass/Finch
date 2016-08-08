@@ -35,6 +35,7 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
     @BindView(R.id.tvUserName) TextView tvUserName;
     @BindView(R.id.tvBody) TextView tvBody;
     @BindView(R.id.ivMedia) ImageView ivMedia;
+    @BindView(R.id.tvScreenName) TextView screenName;
 
     @BindView(R.id.tvTweetAge) TextView tvTweetAge;
 
@@ -42,8 +43,10 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         context = this;
         client = TwitterApplication.getRestClient();
@@ -55,7 +58,7 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
         setUpUi();
     }
 
-    @OnClick(R.id.btnReply)
+    @OnClick({R.id.ivReplyIcon, R.id.tvReplyText})
     public void replyClick() {
 
         showComposeDialog();
@@ -71,7 +74,11 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
         tvUserName.setText(tweet.getUser().getName());
         tvBody.setText(tweet.getBody());
         tvTweetAge.setText(tweet.getTweetAge());
+        screenName.setText("@" + tweet.getUser().getScreenName());
         Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        if (tweet.getMediaUrl() != null) {
+            Picasso.with(this).load(tweet.getMediaUrl()).into(ivMedia);
+        }
 
         String mediaUrl = tweet.getMediaUrl();
 
