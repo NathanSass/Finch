@@ -6,5 +6,6 @@
     <string name="title_activity_timeline">TimelineActivity</string>
     <string name="title_activity_compose">Compose Tweet</string>
     <string name="title_activity_tweet">TweetActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>
