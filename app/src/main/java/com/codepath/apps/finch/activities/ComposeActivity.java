@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import cz.msebera.android.httpclient.Header;
 
+/* Deprecated */
 public class ComposeActivity extends AppCompatActivity {
 
     private TwitterClient client;

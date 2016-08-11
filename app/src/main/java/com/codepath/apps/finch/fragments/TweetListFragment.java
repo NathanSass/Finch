@@ -27,7 +27,7 @@ import butterknife.Unbinder;
 /**
  * Created by nathansass on 8/8/16.
  */
-public class TweetListFragment extends Fragment {
+public abstract class TweetListFragment extends Fragment {
 
 
     private TweetsAdapter adapter;
@@ -56,6 +56,8 @@ public class TweetListFragment extends Fragment {
         setTweetItemClickListener();
 
         setupSwipeRefreshListener();
+
+        populateTimelineFromDB();
 
         return v;
     }
@@ -94,8 +96,8 @@ public class TweetListFragment extends Fragment {
     }
 
     /* This must be overridden */
-    public void populateTimelineOnSwipeRefresh() {
-    }
+    public abstract void populateTimelineOnSwipeRefresh();
+    public void populateTimelineFromDB(){}
 
     public void stopRefreshing() {
         swipeRefreshLayout.setRefreshing(false);
@@ -123,6 +125,13 @@ public class TweetListFragment extends Fragment {
         int curSize = adapter.getItemCount();
         adapter.addAll(tweets);
         adapter.notifyItemRangeInserted(curSize, adapter.getItemCount());
+    }
+
+    public void addToStart(Tweet tweet) {
+        tweets.add(0,tweet);
+        adapter.notifyItemInserted(0);
+
+        rvTweets.smoothScrollToPosition(0);
     }
 
     public void initEndlessScrolling() {

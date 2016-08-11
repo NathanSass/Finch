@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.finch.R;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TimelineActivity extends AppCompatActivity implements TweetListFragment.OnItemSelectedListener{ //  implements ComposeTweetFragment.TimelineCommunicator
+public class TimelineActivity extends AppCompatActivity implements TweetListFragment.OnItemSelectedListener, ComposeTweetFragment.TimelineCommunicator{ //  implements ComposeTweetFragment.TimelineCommunicator
 
     private final int REQUEST_CODE = 99;
 
@@ -53,13 +54,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         context = this;
 
         setUpViewPager();
-
-//        populateTimelineFromDB();
-
-//        setupSwipeRefreshListener();
-
-
-
     }
 
     public void setUpViewPager() {
@@ -109,6 +103,8 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
             if (position == 0) {
                 return new HomeTimelineFragment();
             } else if (position == 1) {
+//                MentionsTimelineFragment mentionsTimelineFragment = new MentionsTimelineFragment();
+//                mentionsTimelineFragment.tagm
                 return new MentionsTimelineFragment();
             } else {
                 return null;
@@ -134,35 +130,29 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         return true;
     }
 
-//    public void populateTimelineFromDB() {
-//        ArrayList<Tweet> dbTweets = (ArrayList<Tweet>) Tweet.getAllTweetsFromDB();
-//
-//        tweets.addAll(dbTweets);
-//        adapter.notifyDataSetChanged();
+
+
+
+
+//    public Fragment findFragmentByPosition(int position) {
+//        TweetsPageAdapter fragmentPagerAdapter = getFragmentPagerAdapter();
+//        return getSupportFragmentManager().findFragmentByTag(
+//                "android:switcher:" + getViewPager().getId() + ":"
+//                        + fragmentPagerAdapter.getItemId(position));
 //    }
-//
-//    public void handleTweetJsonSuccess(JSONArray json) {
-//        int curSize = adapter.getItemCount();
-//
-//        ArrayList<Tweet> newTweets = Tweet.fromJsonArray(json);
-//
-//        tweets.addAll(newTweets);
-//        adapter.notifyItemRangeInserted(curSize, newTweets.size());
-//
-//    }
-//
-//
-//    public void addTweetToTimelineStart(Tweet tweet) {
-//        tweets.add(0, tweet);
-//        adapter.notifyItemInserted(0);
-//    }
-//
-//    @Override
-//    public void onTweetPost(Tweet tweet) {
-//        addTweetToTimelineStart(tweet);
-//
+
+    @Override
+    public void onTweetPost(Tweet tweet) {
+
+        if (vpPager.getCurrentItem() == 0) {
+            Toast.makeText(this, "In tweets timeline", Toast.LENGTH_SHORT).show();
+
+        } else if ( vpPager.getCurrentItem() == 1) {
+            Toast.makeText(this, "In mentions fragment", Toast.LENGTH_SHORT).show();
+        }
+
 //        rvTweets.smoothScrollToPosition(0);
 //
 //        Toast.makeText(this, "Tweet: " + tweet.getBody(), Toast.LENGTH_SHORT).show();
-//    }
+    }
 }

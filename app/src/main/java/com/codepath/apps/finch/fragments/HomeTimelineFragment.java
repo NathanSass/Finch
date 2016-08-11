@@ -24,9 +24,9 @@ public class HomeTimelineFragment extends TweetListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
+
         populateTimelineFromAPI();
     }
-
 
     @Override
     public void endlessScrollingAction(long maxId) {
@@ -43,8 +43,14 @@ public class HomeTimelineFragment extends TweetListFragment {
     }
 
     @Override
+    public void populateTimelineFromDB() {
+        ArrayList<Tweet> dbTweets = (ArrayList<Tweet>) Tweet.getAllTweetsFromDB();
+
+        addAll(dbTweets);
+    }
+
+    @Override
     public void populateTimelineOnSwipeRefresh() {
-        super.populateTimelineOnSwipeRefresh();
         populateTimelineFromAPI();
     }
 

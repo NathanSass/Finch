@@ -39,7 +39,6 @@ public class UserTimelineFragment extends TweetListFragment{
 
     @Override
     public void populateTimelineOnSwipeRefresh() {
-        super.populateTimelineOnSwipeRefresh();
         populateTimelineFromAPI();
     }
 

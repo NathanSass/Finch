@@ -46,7 +46,6 @@ public class MentionsTimelineFragment extends TweetListFragment {
 
     @Override
     public void populateTimelineOnSwipeRefresh() {
-        super.populateTimelineOnSwipeRefresh();
         populateTimelineFromAPI();
     }
 
