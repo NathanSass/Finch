@@ -6,7 +6,10 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.codepath.apps.finch.TwitterApplication;
+import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.util.Util;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +18,8 @@ import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by nathansass on 8/2/16.
@@ -45,6 +50,12 @@ public class Tweet extends Model{
     @Column(name = "Video_url") // not used currently
     String videoUrl;
 
+    @Column(name= "Favorited")
+    Boolean favorited;
+
+    @Column(name= "Retweeted")
+    Boolean retweeted;
+
     public Tweet() { super(); }
 
 
@@ -57,6 +68,9 @@ public class Tweet extends Model{
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON( jsonObject.getJSONObject("user") );
             tweet.user_id = tweet.user.getUid();
+
+            tweet.favorited = jsonObject.getBoolean("favorited");
+            tweet.retweeted = jsonObject.getBoolean("retweeted");
 
             try {
                 JSONArray mediaArr = jsonObject.getJSONObject("entities").getJSONArray("media");
@@ -136,5 +150,30 @@ public class Tweet extends Model{
 
     public String getMediaUrl() {
         return mediaUrl;
+    }
+
+    public Boolean isFavorited() {
+        return favorited;
+    }
+
+    public Boolean getRetweeted() {
+        return retweeted;
+    }
+
+    public void setFavorited(Boolean isFavorite) {
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.postFavorites(isFavorite, getUid(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("DEBUG", "Set Favorite Success");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.v("DEBUG", "Set Favorite Failure");
+            }
+        });
+
+        this.favorited = isFavorite;
     }
 }

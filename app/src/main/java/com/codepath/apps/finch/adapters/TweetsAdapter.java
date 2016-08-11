@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.models.Tweet;
@@ -14,6 +15,8 @@ import com.codepath.apps.finch.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by nathansass on 8/2/16.
@@ -33,6 +36,8 @@ public class TweetsAdapter extends
         public ImageView ivMediaImage;
         public TextView tvScreenName;
 
+        public ImageView ivLikeIcon;
+
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
         public ViewHolder(View itemView) {
@@ -40,11 +45,14 @@ public class TweetsAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
 
+            ButterKnife.bind(this, itemView);
+
             ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
             ivMediaImage = (ImageView) itemView.findViewById(R.id.ivMedia);
+            ivLikeIcon = (ImageView) itemView.findViewById(R.id.ivLikeIcon);
             tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
 
         }
@@ -81,8 +89,8 @@ public class TweetsAdapter extends
     @Override
     public void onBindViewHolder(TweetsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        Tweet tweet = tweets.get(position);
-
+        final Tweet tweet = tweets.get(position);
+        final TweetsAdapter.ViewHolder vhViewHolder = viewHolder;
         TextView tvUserName = viewHolder.tvUserName;
         tvUserName.setText(tweet.getUser().getName());
 
@@ -104,6 +112,33 @@ public class TweetsAdapter extends
         if ( tweet.getMediaUrl() != null ) {
             Picasso.with(getContext()).load(tweet.getMediaUrl()).into(ivMedia);
         }
+
+        Boolean isFavorite = tweet.isFavorited();
+
+        ImageView ivLikeIcon = viewHolder.ivLikeIcon;
+        if (isFavorite) {
+            ivLikeIcon.setImageResource(R.drawable.ic_favorite_true);
+        } else {
+            ivLikeIcon.setImageResource(R.drawable.ic_favorite_false);
+        }
+
+        ivLikeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean isFavorite = tweet.isFavorited();
+
+                ImageView ivLikeIcon = vhViewHolder.ivLikeIcon;
+                tweet.setFavorited(!isFavorite);
+
+                if ( tweet.isFavorited() ) {
+                    ivLikeIcon.setImageResource(R.drawable.ic_favorite_true);
+                } else {
+                    ivLikeIcon.setImageResource(R.drawable.ic_favorite_false);
+                }
+
+                Toast.makeText(getContext(), "LIke Icon click", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Returns the total count of items in the list
