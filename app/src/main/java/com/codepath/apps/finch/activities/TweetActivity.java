@@ -64,6 +64,13 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
         showComposeDialog();
     }
 
+    @OnClick({ R.id.ivProfileImage, R.id.tvUserName, R.id.tvScreenName })
+    public void showUserProfile() {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("screen_name", tweet.getUser().getScreenName());
+        startActivity(i);
+    }
+
     private void showComposeDialog() {
         FragmentManager fm = getSupportFragmentManager();
         ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance("Compose New Tweet", tweet);

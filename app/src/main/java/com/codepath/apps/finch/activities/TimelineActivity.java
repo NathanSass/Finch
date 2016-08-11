@@ -131,28 +131,14 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
     }
 
 
-
-
-
-//    public Fragment findFragmentByPosition(int position) {
-//        TweetsPageAdapter fragmentPagerAdapter = getFragmentPagerAdapter();
-//        return getSupportFragmentManager().findFragmentByTag(
-//                "android:switcher:" + getViewPager().getId() + ":"
-//                        + fragmentPagerAdapter.getItemId(position));
-//    }
-
     @Override
     public void onTweetPost(Tweet tweet) {
-
+        //TODO: make this autoscroll
         if (vpPager.getCurrentItem() == 0) {
             Toast.makeText(this, "In tweets timeline", Toast.LENGTH_SHORT).show();
 
         } else if ( vpPager.getCurrentItem() == 1) {
             Toast.makeText(this, "In mentions fragment", Toast.LENGTH_SHORT).show();
         }
-
-//        rvTweets.smoothScrollToPosition(0);
-//
-//        Toast.makeText(this, "Tweet: " + tweet.getBody(), Toast.LENGTH_SHORT).show();
     }
 }

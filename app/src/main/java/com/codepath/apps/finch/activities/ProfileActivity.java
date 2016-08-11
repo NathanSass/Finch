@@ -21,6 +21,8 @@ import com.codepath.apps.finch.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
@@ -87,14 +89,27 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     }
 
     public void getUserInfo() {
-        client.getUserInfo(new JsonHttpResponseHandler() {
+        String screenName = getIntent().getStringExtra("screen_name");
+        client.getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                userSuccess(response);
+            }
+
+            public void userSuccess(JSONObject response) {
                 user = User.fromJSON(response);
-                // current user accounts info
 
                 getSupportActionBar().setTitle("@" + user.getScreenName());
                 populateProfileHeader(user);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                try {
+                    userSuccess(response.getJSONObject(0));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
