@@ -82,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     public void populateProfileHeader(User user) {
 
         tvTagline.setText(user.getTagline());
+        tvName.setText(user.getName());
         tvFollowers.setText(user.getFollowersCount() + " Followers");
         tvFollowing.setText(user.getFollowingCount() + " Following");
 

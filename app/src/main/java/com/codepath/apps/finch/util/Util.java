@@ -29,7 +29,14 @@ public class Util {
             e.printStackTrace();
         }
 
-        return relativeDate;
+        String[] parts = relativeDate.split(" ");
+        if (parts.length <= 1) {
+            return relativeDate;
+        }
+        else {
+            String dateToShow = parts[0] + parts[1].charAt(0);
+            return dateToShow;
+        }
     }
 
     public static void handleJsonFailure(JSONObject e) {

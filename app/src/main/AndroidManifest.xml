@@ -53,11 +53,6 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activities.ComposeActivity"
-            android:label="@string/title_activity_compose"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
             android:name=".activities.TweetActivity"
             android:label="@string/title_activity_tweet"
             android:theme="@style/AppTheme.NoActionBar">
