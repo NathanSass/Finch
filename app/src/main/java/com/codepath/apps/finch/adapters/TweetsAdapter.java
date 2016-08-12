@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -38,8 +39,8 @@ public class TweetsAdapter extends
         public ImageView ivMediaImage;
         public TextView tvScreenName;
 
-        public ImageView ivLikeIcon;
-        public ImageView ivRetweetIcon;
+        @BindView(R.id.ivLikeIcon) ImageView ivLikeIcon;
+        @BindView(R.id.ivRetweetIcon) ImageView ivRetweetIcon;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -55,8 +56,6 @@ public class TweetsAdapter extends
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
             ivMediaImage = (ImageView) itemView.findViewById(R.id.ivMedia);
-            ivLikeIcon = (ImageView) itemView.findViewById(R.id.ivLikeIcon);
-            ivRetweetIcon = (ImageView) itemView.findViewById(R.id.ivRetweetIcon);
             tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
 
         }
