@@ -12,9 +12,11 @@ import android.widget.Toast;
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.models.Tweet;
 import com.codepath.apps.finch.util.CircleTransform;
+import com.codepath.apps.finch.util.PatternEditableBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 
@@ -62,10 +64,12 @@ public class TweetsAdapter extends
     /* Viewholder Above */
     private List<Tweet> tweets;
     private Context context;
+    private final Communicator communicator;
 
-    public TweetsAdapter(Context context, List<Tweet> tweets) {
+    public TweetsAdapter(Context context, List<Tweet> tweets, Communicator communicator) {
         this.tweets = tweets;
         this.context = context;
+        this.communicator = communicator;
     }
 
     private Context getContext() {
@@ -97,9 +101,6 @@ public class TweetsAdapter extends
         TextView tvScreenName = viewHolder.tvScreenName;
         tvScreenName.setText("@" + tweet.getUser().getScreenName());
 
-        TextView tvBody = viewHolder.tvBody;
-        tvBody.setText(tweet.getBody());
-
         TextView tvTweetAge = viewHolder.tvTweetAge;
         tvTweetAge.setText(tweet.getTweetAge());
 
@@ -112,9 +113,23 @@ public class TweetsAdapter extends
         if ( tweet.getMediaUrl() != null ) {
             Picasso.with(getContext()).load(tweet.getMediaUrl()).into(ivMedia);
         }
+        /* Making text clickable */
+        TextView tvBody = viewHolder.tvBody;
+        tvBody.setText(tweet.getBody());
 
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\@(\\w+)"), R.color.twitBlue,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String screenName) {
+
+                                communicator.onProfileLinkClickListener( screenName.substring(1, screenName.length()) );
+
+                            }
+                        }).into(tvBody);
+
+        /* Tweet Favoriteing */
         Boolean isFavorite = tweet.isFavorited();
-
         ImageView ivLikeIcon = viewHolder.ivLikeIcon;
         if (isFavorite) {
             ivLikeIcon.setImageResource(R.drawable.ic_favorite_true);
@@ -156,6 +171,10 @@ public class TweetsAdapter extends
     public void addAll(List<Tweet> newTweets) {
         tweets.addAll(newTweets);
         notifyDataSetChanged();
+    }
+
+    public interface Communicator {
+        void onProfileLinkClickListener(String screenName);
     }
 
 }

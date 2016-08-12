@@ -1,6 +1,7 @@
 package com.codepath.apps.finch.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.finch.R;
+import com.codepath.apps.finch.activities.ProfileActivity;
 import com.codepath.apps.finch.adapters.TweetsAdapter;
 import com.codepath.apps.finch.models.Tweet;
 import com.codepath.apps.finch.util.EndlessRecyclerViewScrollListener;
@@ -80,12 +82,24 @@ public abstract class TweetListFragment extends Fragment {
 
     public void setUpRecyclerView() {
         tweets = new ArrayList<>();
-        adapter = new TweetsAdapter(getActivity(), tweets);
+        adapter = new TweetsAdapter(getActivity(), tweets, new TweetsAdapter.Communicator(){
+            @Override
+            public void onProfileLinkClickListener(String screenName) {
+                onProfileLinkClicked(screenName);
+            }
+        });
 
         rvTweets.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         rvTweets.setLayoutManager(linearLayoutManager);
+    }
+
+    /* Override this to launch new activities differently */
+    public void onProfileLinkClicked(String screenName) {
+        Intent i = new Intent(getActivity(), ProfileActivity.class);
+        i.putExtra("screen_name", screenName);
+        startActivity(i);
     }
 
     public void addAll(List<Tweet> tweets) {

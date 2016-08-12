@@ -103,8 +103,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
             if (position == 0) {
                 return new HomeTimelineFragment();
             } else if (position == 1) {
-//                MentionsTimelineFragment mentionsTimelineFragment = new MentionsTimelineFragment();
-//                mentionsTimelineFragment.tagm
                 return new MentionsTimelineFragment();
             } else {
                 return null;
@@ -133,7 +131,7 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
 
     @Override
     public void onTweetPost(Tweet tweet) {
-        //TODO: make this autoscroll
+        //TODO: make this auto scroll
         if (vpPager.getCurrentItem() == 0) {
             Toast.makeText(this, "In tweets timeline", Toast.LENGTH_SHORT).show();
 
