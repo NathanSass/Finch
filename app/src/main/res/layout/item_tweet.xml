@@ -98,8 +98,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivLikeIcon"
+                android:layout_marginLeft="6dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/ic_favorite_false"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivRetweetIcon"
+                android:layout_toLeftOf="@id/ivLikeIcon"
+                android:background="@drawable/retweet_false"/>
         </RelativeLayout>
 
     </RelativeLayout>

@@ -84,7 +84,7 @@ public class Tweet extends Model{
             try { // These are for the video URLS, but currently unable to get that working
                 JSONArray urlArr = jsonObject.getJSONObject("entities").getJSONArray("urls");
                 tweet.videoUrl = urlArr.getJSONObject(0).getString("display_url");
-                Log.v("DEBUG", "URLARR: " + tweet.videoUrl);
+//                Log.v("DEBUG", "URLARR: " + tweet.videoUrl);
             } catch (JSONException e) {
 //                e.printStackTrace();
             }
@@ -156,8 +156,24 @@ public class Tweet extends Model{
         return favorited;
     }
 
-    public Boolean getRetweeted() {
+    public Boolean isRetweeted() {
         return retweeted;
+    }
+
+    public void setRetweeted(Boolean isRetweet) {
+        TwitterClient client = TwitterApplication.getRestClient();
+        client.postRetweet(isRetweet, getUid(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.v("DEBUG", "Set Retweet Success");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.v("DEBUG", "Set Retweet Failure");
+            }
+        });
+        this.retweeted = isRetweet;
     }
 
     public void setFavorited(Boolean isFavorite) {

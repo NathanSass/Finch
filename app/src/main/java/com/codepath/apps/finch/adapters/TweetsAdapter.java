@@ -39,6 +39,7 @@ public class TweetsAdapter extends
         public TextView tvScreenName;
 
         public ImageView ivLikeIcon;
+        public ImageView ivRetweetIcon;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -55,6 +56,7 @@ public class TweetsAdapter extends
             tvTweetAge = (TextView) itemView.findViewById(R.id.tvTweetAge);
             ivMediaImage = (ImageView) itemView.findViewById(R.id.ivMedia);
             ivLikeIcon = (ImageView) itemView.findViewById(R.id.ivLikeIcon);
+            ivRetweetIcon = (ImageView) itemView.findViewById(R.id.ivRetweetIcon);
             tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
 
         }
@@ -128,7 +130,7 @@ public class TweetsAdapter extends
                             }
                         }).into(tvBody);
 
-        /* Tweet Favoriteing */
+        /* Tweet Favorite */
         Boolean isFavorite = tweet.isFavorited();
         ImageView ivLikeIcon = viewHolder.ivLikeIcon;
         if (isFavorite) {
@@ -151,9 +153,38 @@ public class TweetsAdapter extends
                     ivLikeIcon.setImageResource(R.drawable.ic_favorite_false);
                 }
 
-                Toast.makeText(getContext(), "LIke Icon click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Like icon click", Toast.LENGTH_SHORT).show();
             }
         });
+
+        /* Retweeting Favorite*/
+        Boolean isRetweet = tweet.isRetweeted();
+        ImageView ivRetweetIcon = viewHolder.ivRetweetIcon;
+        if (isRetweet) {
+            ivRetweetIcon.setImageResource(R.drawable.retweet_true);
+        } else {
+            ivRetweetIcon.setImageResource(R.drawable.retweet_false);
+        }
+
+        ivRetweetIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean isRetweet = tweet.isRetweeted();
+
+                ImageView ivRetweetIcon = vhViewHolder.ivRetweetIcon;
+                tweet.setRetweeted(!isRetweet);
+
+                if ( tweet.isRetweeted() ) {
+                    ivRetweetIcon.setImageResource(R.drawable.retweet_true);
+                } else {
+                    ivRetweetIcon.setImageResource(R.drawable.retweet_false);
+                }
+
+                Toast.makeText(getContext(), "Retweet icon click", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     // Returns the total count of items in the list
