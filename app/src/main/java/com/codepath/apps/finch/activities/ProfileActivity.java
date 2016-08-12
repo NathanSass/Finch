@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.finch.R;
@@ -35,6 +39,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     TwitterClient client;
 
     User user;
+
+    MenuItem miActionProgressItem;
 
     @BindView(R.id.ivProfileImage)
     ImageView ivProfileImage;
@@ -132,11 +138,49 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_profile, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void onTweetClick(Tweet tweet) {
         Intent intent = new Intent(this, TweetActivity.class);
 
         intent.putExtra("tweet", Parcels.wrap(tweet));
 
         startActivity(intent);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+    @Override
+    public void showProgressSpinner() {
+        showProgressBar();
+    }
+
+    @Override
+    public void hideProgressSpinner() {
+        hideProgressBar();
     }
 }

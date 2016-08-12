@@ -28,16 +28,20 @@ public class HomeTimelineFragment extends TweetListFragment {
         populateTimelineFromAPI();
     }
 
+
     @Override
     public void endlessScrollingAction(long maxId) {
+        showProgressSpinner();
         client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                hideProgressSpinner();
                 appendTo( Tweet.fromJsonArray(json) );
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Util.handleJsonFailure(errorResponse);
+                hideProgressSpinner();
+                Util.handleJsonFailure(getContext(), errorResponse);
             }
         });
     }

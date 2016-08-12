@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -39,7 +42,10 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
     @BindView(R.id.viewpager) ViewPager vpPager;
     @BindView(R.id.tabs) PagerSlidingTabStrip tabStrip;
 
-//    @BindView(R.id.fab) FloatingActionButton floatingActionButton;
+    MenuItem miActionProgressItem;
+
+
+    //    @BindView(R.id.fab) FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +124,37 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         public int getCount() {
             return tabTitles.length;
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        Log.v("DEBUG", "FUCK: " + miActionProgressItem.toString());
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+    @Override
+    public void showProgressSpinner() {
+        showProgressBar();
+    }
+
+    @Override
+    public void hideProgressSpinner() {
+        hideProgressBar();
     }
 
     @Override

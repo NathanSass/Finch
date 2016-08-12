@@ -1,7 +1,9 @@
 package com.codepath.apps.finch.util;
 
+import android.content.Context;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -41,6 +43,11 @@ public class Util {
 
     public static void handleJsonFailure(JSONObject e) {
         Log.d("DEBUG", e.toString());
+    }
+
+    public static void handleJsonFailure(Context context,JSONObject e) {
+        Toast.makeText(context, "Unable to retrieve more tweets :(", Toast.LENGTH_SHORT).show();
+        handleJsonFailure(e);
     }
 
     public static boolean isOnline() {

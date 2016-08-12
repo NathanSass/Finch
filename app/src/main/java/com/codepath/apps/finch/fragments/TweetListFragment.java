@@ -160,6 +160,14 @@ public abstract class TweetListFragment extends Fragment {
         });
     }
 
+    public void showProgressSpinner() {
+        listener.showProgressSpinner();
+    }
+
+    public void hideProgressSpinner() {
+        listener.hideProgressSpinner();
+    }
+
     /* This is overridden to implement endless scrolling */
     public void endlessScrollingAction(long maxId) {}
 
@@ -178,5 +186,7 @@ public abstract class TweetListFragment extends Fragment {
 
     public interface OnItemSelectedListener {
        void onTweetClick(Tweet tweet);
+        void showProgressSpinner();
+        void hideProgressSpinner();
     }
 }
