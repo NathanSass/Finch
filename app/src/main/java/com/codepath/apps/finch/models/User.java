@@ -5,9 +5,12 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import java.util.ArrayList;
 
 /**
  * Created by nathansass on 8/2/16.
@@ -58,6 +61,25 @@ public class User extends Model{
         }
 
         return u;
+    }
+
+    public static ArrayList<User> fromJsonArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            try {
+                JSONObject userJson = jsonArray.getJSONObject(i);
+                User user = User.fromJSON(userJson);
+                if (user!= null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+        }
+        return users;
     }
 
     public String getProfileImageUrl() {

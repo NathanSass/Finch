@@ -2,22 +2,24 @@ package com.codepath.apps.finch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
+import com.codepath.apps.finch.fragments.FollowersFragment;
 import com.codepath.apps.finch.fragments.TweetListFragment;
 import com.codepath.apps.finch.fragments.UserTimelineFragment;
 import com.codepath.apps.finch.models.Tweet;
@@ -57,6 +59,12 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     @BindView(R.id.tvFollowing)
     TextView tvFollowing;
 
+    @BindView(R.id.viewpager)
+    ViewPager vpPager;
+
+    @BindView(R.id.tabs)
+    PagerSlidingTabStrip tabStrip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,20 +78,52 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
 
         if (savedInstanceState == null) {
-            constructFragment();
+//            constructUserTimeLineFragment();
         }
+        setUpViewPager();
 
         getUserInfo();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
+
+    public void setUpViewPager() {
+        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager()));
+        tabStrip.setViewPager(vpPager);
+    }
+
+    public class UserProfilePageAdapter extends FragmentPagerAdapter {
+
+//        public String tabTitles[] = { "Timeline", "Followers", "Following" };
+        public String tabTitles[] = { "Timeline", "Followers" };
+
+        public UserProfilePageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            if (position == 0) {
+                return UserTimelineFragment.newInstance("nsass711");
+            } else if (position == 1) {
+//                return null;
+                return FollowersFragment.newInstance("nsass711");
+//                return new MentionsTimelineFragment();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+    }
+
 
     public void populateProfileHeader(User user) {
 
@@ -126,16 +166,16 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         });
     }
 
-    public void constructFragment() {
-        String screenName = getIntent().getStringExtra("screen_name");
-        UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flContainer, userTimelineFragment);
-
-
-        ft.commit();
-    }
+//    public void constructFragment() {
+//        String screenName = getIntent().getStringExtra("screen_name");
+//        UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
+//
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.flContainer, userTimelineFragment);
+//
+//
+//        ft.commit();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
