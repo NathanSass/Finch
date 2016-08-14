@@ -168,10 +168,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-//        int searchImgId = android.support.v7.appcompat.R.id.search_button;
-//        ImageView v = (ImageView) searchView.findViewById(searchImgId);
-//        v.setImageResource(R.drawable.search_btn);
-        // Customize searchview text and hint colors
         int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
         EditText et = (EditText) searchView.findViewById(searchEditId);
         et.setTextColor(ContextCompat.getColor(context, R.color.lightText));
@@ -180,10 +176,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // perform query here
-//                Toast.makeText(getApplicationContext(), "query: " + query, Toast.LENGTH_SHORT).show();
-                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
-                // see https://code.google.com/p/android/issues/detail?id=24599
 
                 Intent i = new Intent(TimelineActivity.this, SearchActivity.class);
                 i.putExtra("query", query);
