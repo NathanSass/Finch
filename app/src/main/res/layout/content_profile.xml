@@ -90,7 +90,6 @@
             app:pstsShouldExpand="true"
             app:pstsTextAllCaps="true"
             android:layout_width="match_parent"
-            android:layout_marginRight="100dp"
             android:layout_height="48dp" />
 
         <android.support.v4.view.ViewPager
@@ -99,7 +98,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white" />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -17,7 +17,10 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class FollowersFragment extends UserListFragment {
+/**
+ * Created by nathansass on 8/13/16.
+ */
+public class FollowingFragment extends UserListFragment{
     private TwitterClient client;
 
     @Override
@@ -27,18 +30,18 @@ public class FollowersFragment extends UserListFragment {
         populateTimelineFromAPI();
     }
 
-    public static FollowersFragment newInstance(String screen_name) {
-        FollowersFragment followersFragment = new FollowersFragment();
+    public static FollowingFragment newInstance(String screen_name) {
+        FollowingFragment followingFragment = new FollowingFragment();
         Bundle args = new Bundle();
         args.putString("screen_name", screen_name);
-        followersFragment.setArguments(args);
-        return followersFragment;
+        followingFragment.setArguments(args);
+        return followingFragment;
     }
 
 
     public void populateTimelineFromAPI() {
         String screenName = getArguments().getString("screen_name");
-        client.getFollowers(screenName, new JsonHttpResponseHandler() {
+        client.getFollowing(screenName, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {

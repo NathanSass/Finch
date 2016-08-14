@@ -75,11 +75,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(UserAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         final User user = users.get(position);
-        final UserAdapter.ViewHolder vhViewHolder = viewHolder;
+        UserAdapter.ViewHolder vhViewHolder = viewHolder;
 
         /* UI MANIPULATION HERE*/
 
-        TextView tvName = viewHolder.tvName;
+        TextView tvName = vhViewHolder.tvName;
         TextView tvTagline = viewHolder.tvTagline;
 
         tvName.setText(user.getName());

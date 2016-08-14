@@ -30,8 +30,8 @@ public class UserListFragment extends Fragment {
     private UserAdapter adapter;
     LinearLayoutManager linearLayoutManager;
 
-    @BindView(R.id.rvTweets)
-    RecyclerView rvTweets;
+    @BindView(R.id.rvUsers)
+    RecyclerView rvUsers;
     @BindView(R.id.swipeContainer)
     SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<User> users;
@@ -41,7 +41,7 @@ public class UserListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_tweets_list, parent, false );
+        View v = inflater.inflate(R.layout.fragment_users_list, parent, false );
         // BUGBUG: May need to change this
         unbinder = ButterKnife.bind(this, v);
 
@@ -72,10 +72,10 @@ public class UserListFragment extends Fragment {
         users = new ArrayList<>();
         adapter = new UserAdapter(getActivity(), users );
 
-        rvTweets.setAdapter(adapter);
+        rvUsers.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
-        rvTweets.setLayoutManager(linearLayoutManager);
+        rvUsers.setLayoutManager(linearLayoutManager);
     }
 
 

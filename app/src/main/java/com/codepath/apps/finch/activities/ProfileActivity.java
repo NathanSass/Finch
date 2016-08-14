@@ -20,6 +20,7 @@ import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.fragments.FollowersFragment;
+import com.codepath.apps.finch.fragments.FollowingFragment;
 import com.codepath.apps.finch.fragments.TweetListFragment;
 import com.codepath.apps.finch.fragments.UserTimelineFragment;
 import com.codepath.apps.finch.models.Tweet;
@@ -92,8 +93,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
     public class UserProfilePageAdapter extends FragmentPagerAdapter {
 
-//        public String tabTitles[] = { "Timeline", "Followers", "Following" };
-        public String tabTitles[] = { "Timeline", "Followers" };
+        public String tabTitles[] = { "Timeline", "Followers", "Following" };
 
         public UserProfilePageAdapter(FragmentManager fm) {
             super(fm);
@@ -103,11 +103,12 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         public Fragment getItem(int position) {
 
             if (position == 0) {
+
                 return UserTimelineFragment.newInstance("nsass711");
             } else if (position == 1) {
-//                return null;
                 return FollowersFragment.newInstance("nsass711");
-//                return new MentionsTimelineFragment();
+            } else if (position == 2) {
+                return FollowingFragment.newInstance("nsass711");
             } else {
                 return null;
             }
@@ -166,24 +167,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         });
     }
 
-//    public void constructFragment() {
-//        String screenName = getIntent().getStringExtra("screen_name");
-//        UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
-//
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.replace(R.id.flContainer, userTimelineFragment);
-//
-//
-//        ft.commit();
-//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_profile, menu);
-
-        return true;
-    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -223,4 +207,24 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     public void hideProgressSpinner() {
         hideProgressBar();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_profile, menu);
+
+        return true;
+    }
+
+    /* Deprecated */
+//    public void constructFragment() {
+//        String screenName = getIntent().getStringExtra("screen_name");
+//        UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
+//
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.flContainer, userTimelineFragment);
+//
+//
+//        ft.commit();
+//    }
 }
