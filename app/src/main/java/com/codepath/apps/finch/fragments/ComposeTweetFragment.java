@@ -59,7 +59,6 @@ public class ComposeTweetFragment extends DialogFragment {
 
         args.putString("title", title);
         args.putParcelable("replyToTweet", Parcels.wrap(incomingReplyTweet));
-//        Log.v("DEBUG", "replyTOTWeet in composetweetfrag: " + replyToTweet.toString());
 
         frag.setArguments(args);
         return frag;

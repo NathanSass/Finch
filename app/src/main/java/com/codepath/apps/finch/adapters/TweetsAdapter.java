@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.models.Tweet;
@@ -151,8 +150,6 @@ public class TweetsAdapter extends
                 } else {
                     ivLikeIcon.setImageResource(R.drawable.ic_favorite_false);
                 }
-
-                Toast.makeText(getContext(), "Like icon click", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -179,7 +176,6 @@ public class TweetsAdapter extends
                     ivRetweetIcon.setImageResource(R.drawable.retweet_false);
                 }
 
-                Toast.makeText(getContext(), "Retweet icon click", Toast.LENGTH_SHORT).show();
             }
         });
 

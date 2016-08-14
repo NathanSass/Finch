@@ -17,6 +17,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- ToolBar -->
+    <style name="ToolBarTheme.ToolBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/twitSecondary</item>
+        <item name="android:textColor">@color/twitSecondary</item>
+        <item name="android:textColorPrimaryInverse">@color/twitSecondary</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>

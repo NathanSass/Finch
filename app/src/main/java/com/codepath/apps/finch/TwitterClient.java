@@ -118,6 +118,14 @@ public class TwitterClient extends OAuthBaseClient {
         }
     }
 
+    public void getTweetSearch(String query, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("search/tweets.json");
+        RequestParams params = new RequestParams();
+        params.put("q", query);
+        params.put("count", 25);
+        getClient().get(apiUrl, params, handler);
+    }
+
     public void postNewTweet(Tweet replyToTweet, String tweetBody, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/update.json");
 		// Can specify query string params directly or through RequestParams.
