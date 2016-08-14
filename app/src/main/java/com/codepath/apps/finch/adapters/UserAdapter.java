@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.codepath.apps.finch.R;
 import com.codepath.apps.finch.models.User;
+import com.codepath.apps.finch.util.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -77,13 +79,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         final User user = users.get(position);
         UserAdapter.ViewHolder vhViewHolder = viewHolder;
 
-        /* UI MANIPULATION HERE*/
-
+        /* UI MANIPULATION HERE */
         TextView tvName = vhViewHolder.tvName;
         TextView tvTagline = viewHolder.tvTagline;
+        ImageView ivProfileImage = viewHolder.ivProfileImage;
 
         tvName.setText(user.getName());
         tvTagline.setText(user.getTagline());
+        viewHolder.ivProfileImage.setImageResource(0);
+        Picasso.with(getContext()).load(user.getProfileImageUrl()).transform(new CircleTransform()).into(ivProfileImage);
 
     }
 

@@ -54,12 +54,6 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     @BindView(R.id.tvTagline)
     TextView tvTagline;
 
-    @BindView(R.id.tvFollowers)
-    TextView tvFollowers;
-
-    @BindView(R.id.tvFollowing)
-    TextView tvFollowing;
-
     @BindView(R.id.viewpager)
     ViewPager vpPager;
 
@@ -81,22 +75,25 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         if (savedInstanceState == null) {
 //            constructUserTimeLineFragment();
         }
-        setUpViewPager();
 
         getUserInfo();
     }
 
-    public void setUpViewPager() {
-        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager()));
+    public void setUpViewPager(User user) {
+        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager(), user));
         tabStrip.setViewPager(vpPager);
     }
 
     public class UserProfilePageAdapter extends FragmentPagerAdapter {
 
-        public String tabTitles[] = { "Timeline", "Followers", "Following" };
+        public User user;
+        public String tabTitles[];
 
-        public UserProfilePageAdapter(FragmentManager fm) {
+        public UserProfilePageAdapter(FragmentManager fm, User user) {
             super(fm);
+            this.user = user;
+
+            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
         }
 
         @Override
@@ -130,8 +127,6 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
         tvTagline.setText(user.getTagline());
         tvName.setText(user.getName());
-        tvFollowers.setText(user.getFollowersCount() + " Followers");
-        tvFollowing.setText(user.getFollowingCount() + " Following");
 
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
     }
@@ -146,6 +141,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
             public void userSuccess(JSONObject response) {
                 user = User.fromJSON(response);
+
+                setUpViewPager(user);
 
                 getSupportActionBar().setTitle("@" + user.getScreenName());
                 populateProfileHeader(user);

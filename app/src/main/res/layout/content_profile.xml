@@ -6,69 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codepath.apps.finch.activities.ProfileActivity"
     tools:showIn="@layout/activity_profile">
 
-    <include layout="@layout/partial_user_info"/>
+    <include layout="@layout/partial_user_info"
+             android:id="@+id/partialUserInfo"
+             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+             android:layout_marginRight="@dimen/activity_horizontal_margin"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/llCounts"-->
+        <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/rlTop">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/ivProfileImage"-->
-            <!--android:layout_width="75dp"-->
-            <!--android:layout_height="75dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:src="@android:drawable/screen_background_light_transparent"/>-->
-        <!---->
-        <!--<TextView-->
-            <!--android:id="@+id/tvName"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@+id/ivProfileImage"-->
-            <!--android:textSize="16sp"-->
-            <!--android:text="Name"/>-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_below="@+id/rlTop"-->
+        <!--android:orientation="horizontal">-->
 
         <!--<TextView-->
-            <!--android:id="@+id/tvTagline"-->
+            <!--android:id="@+id/tvFollowers"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/tvName"-->
-            <!--android:layout_alignLeft="@+id/tvName"-->
-            <!--android:text="Tagline"-->
-            <!--android:textSize="12sp" />-->
-    <!--</RelativeLayout>-->
+            <!--android:text="5 Followers"/>-->
 
-    <LinearLayout
-        android:id="@+id/llCounts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/rlTop"
-        android:orientation="horizontal">
+        <!--<TextView-->
+            <!--android:id="@+id/tvFollowing"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="5 Following"/>-->
 
-        <TextView
-            android:id="@+id/tvFollowers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5 Followers"/>
-
-        <TextView
-            android:id="@+id/tvFollowing"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content"
-            android:text="5 Following"/>
-
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <!--<FrameLayout-->
         <!--android:layout_width="match_parent"-->
@@ -82,7 +53,7 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:layout_below="@id/llCounts"
+                  android:layout_below="@id/partialUserInfo"
                   android:orientation="vertical">
 
         <com.astuetz.PagerSlidingTabStrip
