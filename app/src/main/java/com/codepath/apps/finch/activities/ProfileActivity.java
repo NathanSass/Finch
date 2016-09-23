@@ -75,12 +75,17 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         if (savedInstanceState == null) {
 //            constructUserTimeLineFragment();
         }
-
+        setUpViewPager();
         getUserInfo();
     }
 
-    public void setUpViewPager(User user) {
-        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager(), user));
+//    public void setUpViewPager(User user) {
+//        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager(), user));
+//        tabStrip.setViewPager(vpPager);
+//    }
+
+    public void setUpViewPager() {
+        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager()));
         tabStrip.setViewPager(vpPager);
     }
 
@@ -89,11 +94,12 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         public User user;
         public String tabTitles[];
 
-        public UserProfilePageAdapter(FragmentManager fm, User user) {
+        public UserProfilePageAdapter(FragmentManager fm) {
             super(fm);
             this.user = user;
 
-            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
+            tabTitles = new String[]{"Timeline",  "Followers", "Following"};
+//            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
         }
 
         @Override
@@ -142,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
             public void userSuccess(JSONObject response) {
                 user = User.fromJSON(response);
 
-                setUpViewPager(user);
+//                setUpViewPager(user);
 
                 getSupportActionBar().setTitle("@" + user.getScreenName());
                 populateProfileHeader(user);

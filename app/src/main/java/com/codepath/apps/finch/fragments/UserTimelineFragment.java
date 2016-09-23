@@ -2,6 +2,7 @@ package com.codepath.apps.finch.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
@@ -26,6 +27,17 @@ public class UserTimelineFragment extends TweetListFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        /* This needs to occur after view created because
+            in my 3 part fragment in the user profile on 2 views are cached.
+            And the creation of the recycler view is called mulp times
+
+         */
         populateTimelineFromAPI();
     }
 

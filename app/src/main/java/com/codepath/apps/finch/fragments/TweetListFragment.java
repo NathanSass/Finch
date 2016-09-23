@@ -48,6 +48,7 @@ public abstract class TweetListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
+        /* This function gets called mult times in 3 part viewpager */
         View v = inflater.inflate(R.layout.fragment_tweets_list, parent, false );
         unbinder = ButterKnife.bind(this, v);
 

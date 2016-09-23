@@ -2,6 +2,7 @@ package com.codepath.apps.finch.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
@@ -25,9 +26,13 @@ public class HomeTimelineFragment extends TweetListFragment {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
 
-        populateTimelineFromAPI();
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        populateTimelineFromAPI();
+
+    }
 
     @Override
     public void endlessScrollingAction(long maxId) {
@@ -48,9 +53,9 @@ public class HomeTimelineFragment extends TweetListFragment {
 
     @Override
     public void populateTimelineFromDB() {
-        ArrayList<Tweet> dbTweets = (ArrayList<Tweet>) Tweet.getAllTweetsFromDB();
-
-        addAll(dbTweets);
+//        ArrayList<Tweet> dbTweets = (ArrayList<Tweet>) Tweet.getAllTweetsFromDB();
+//
+//        addAll(dbTweets);
     }
 
     @Override
