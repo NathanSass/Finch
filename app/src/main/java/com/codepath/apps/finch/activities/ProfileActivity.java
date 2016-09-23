@@ -25,6 +25,7 @@ import com.codepath.apps.finch.fragments.TweetListFragment;
 import com.codepath.apps.finch.fragments.UserTimelineFragment;
 import com.codepath.apps.finch.models.Tweet;
 import com.codepath.apps.finch.models.User;
+import com.codepath.apps.finch.util.CircleTransform;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -133,8 +134,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
         tvTagline.setText(user.getTagline());
         tvName.setText(user.getName());
-
-        Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(this).load(user.getProfileImageUrl()).transform(new CircleTransform()).into(ivProfileImage);
     }
 
     public void getUserInfo() {

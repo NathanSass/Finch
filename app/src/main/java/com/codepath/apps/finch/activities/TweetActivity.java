@@ -15,6 +15,7 @@ import com.codepath.apps.finch.TwitterApplication;
 import com.codepath.apps.finch.TwitterClient;
 import com.codepath.apps.finch.fragments.ComposeTweetFragment;
 import com.codepath.apps.finch.models.Tweet;
+import com.codepath.apps.finch.util.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -82,7 +83,7 @@ public class TweetActivity extends AppCompatActivity implements ComposeTweetFrag
         tvBody.setText(tweet.getBody());
         tvTweetAge.setText(tweet.getTweetAge());
         screenName.setText("@" + tweet.getUser().getScreenName());
-        Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).transform(new CircleTransform()).into(ivProfileImage);
         if (tweet.getMediaUrl() != null) {
             Picasso.with(this).load(tweet.getMediaUrl()).into(ivMedia);
         }

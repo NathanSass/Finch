@@ -31,7 +31,7 @@
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
 
-                    android:src="@drawable/finch_icon"/>
+                    android:src="@drawable/action_bar_stroke"/>
 
                 <!--<ImageView-->
                     <!--android:layout_width="55dp"-->
