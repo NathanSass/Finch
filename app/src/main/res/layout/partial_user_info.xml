@@ -31,4 +31,18 @@
         android:layout_alignLeft="@+id/tvName"
         android:text="Tagline"
         android:textSize="12sp" />
+
+    <Button
+        android:text="Logout"
+        android:minHeight="20dp"
+        android:fontFamily="sans-serif"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:minWidth="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btnLogout"/>
 </RelativeLayout>

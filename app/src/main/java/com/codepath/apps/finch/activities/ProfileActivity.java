@@ -1,5 +1,6 @@
 package com.codepath.apps.finch.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity implements TweetListFragment.OnItemSelectedListener{
@@ -44,6 +48,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     TwitterClient client;
 
     User user;
+
+    Context context;
 
     MenuItem miActionProgressItem;
 
@@ -62,6 +68,9 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     @BindView(R.id.tabs)
     PagerSlidingTabStrip tabStrip;
 
+    @BindView(R.id.btnLogout)
+    Button btnLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
         ButterKnife.bind(this);
 
-
+        context = this;
         if (savedInstanceState == null) {
 //            constructUserTimeLineFragment();
         }
@@ -96,8 +105,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
             super(fm);
             this.user = user;
 
-//            tabTitles = new String[]{"Timeline",  "Followers", "Following"};
-            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
+            tabTitles = new String[]{"Timeline",  "Followers", "Following"};
+//            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"}; // Need to manage long amounts of followers
         }
 
         @Override
@@ -135,8 +144,13 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     }
 
     public void getUserInfo() {
-//        String screenName = getIntent().getStringExtra("screen_name"); //BUGBUG: currently not doing anything
-        client.getUserInfo( new JsonHttpResponseHandler() {
+        String screenName = getIntent().getStringExtra("screen_name");
+
+        if (screenName == null) { // Case: screenName will be passed it is not the userprofile
+            btnLogout.setVisibility(View.VISIBLE); // only do this if screenname is null
+        }
+
+        client.getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 userSuccess(response);
@@ -167,6 +181,12 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         });
     }
 
+    @OnClick(R.id.btnLogout)
+    public void btnLogoutClick() {
+        client.clearAccessToken();
+        Intent i = new Intent(context, LoginActivity.class);
+        startActivity(i);
+    }
 
 
     @Override
