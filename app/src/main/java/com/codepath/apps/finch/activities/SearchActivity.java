@@ -1,7 +1,10 @@
 package com.codepath.apps.finch.activities;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -27,6 +30,13 @@ public class SearchActivity extends AppCompatActivity implements TweetListFragme
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // changes the color of the uparrow
+        final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.ic_arrow_back);
+        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.twitBlue), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
 
         ButterKnife.bind(this);
 
