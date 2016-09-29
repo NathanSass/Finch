@@ -76,17 +76,11 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         if (savedInstanceState == null) {
 //            constructUserTimeLineFragment();
         }
-        setUpViewPager();
         getUserInfo();
     }
 
-//    public void setUpViewPager(User user) {
-//        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager(), user));
-//        tabStrip.setViewPager(vpPager);
-//    }
-
-    public void setUpViewPager() {
-        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager()));
+    public void setUpViewPager(User user) {
+        vpPager.setAdapter(new UserProfilePageAdapter(getSupportFragmentManager(), user));
         tabStrip.setViewPager(vpPager);
     }
 
@@ -95,12 +89,12 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
         public User user;
         public String tabTitles[];
 
-        public UserProfilePageAdapter(FragmentManager fm) {
+        public UserProfilePageAdapter(FragmentManager fm, User user) {
             super(fm);
             this.user = user;
 
-            tabTitles = new String[]{"Timeline",  "Followers", "Following"};
-//            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
+//            tabTitles = new String[]{"Timeline",  "Followers", "Following"};
+            tabTitles = new String[]{"Timeline", user.getFollowersCount() + " Followers", user.getFollowingCount() + " Following"};
         }
 
         @Override
@@ -108,11 +102,11 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
 
             if (position == 0) {
 
-                return UserTimelineFragment.newInstance("nsass711");
+                return UserTimelineFragment.newInstance(this.user.getScreenName());
             } else if (position == 1) {
-                return FollowersFragment.newInstance("nsass711");
+                return FollowersFragment.newInstance(this.user.getScreenName());
             } else if (position == 2) {
-                return FollowingFragment.newInstance("nsass711");
+                return FollowingFragment.newInstance(this.user.getScreenName());
             } else {
                 return null;
             }
@@ -138,8 +132,8 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
     }
 
     public void getUserInfo() {
-        String screenName = getIntent().getStringExtra("screen_name");
-        client.getUserInfo(screenName, new JsonHttpResponseHandler() {
+//        String screenName = getIntent().getStringExtra("screen_name"); //BUGBUG: currently not doing anything
+        client.getUserInfo( new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 userSuccess(response);
@@ -148,7 +142,7 @@ public class ProfileActivity extends AppCompatActivity implements TweetListFragm
             public void userSuccess(JSONObject response) {
                 user = User.fromJSON(response);
 
-//                setUpViewPager(user);
+                setUpViewPager(user);
 
                 getSupportActionBar().setTitle("@" + user.getScreenName());
                 populateProfileHeader(user);
