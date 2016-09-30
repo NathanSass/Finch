@@ -19,7 +19,6 @@
             android:id="@+id/etTweetBody"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:maxLength="140"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"/>
 

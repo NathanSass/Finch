@@ -56,7 +56,12 @@
         <activity
             android:name=".activities.TweetActivity"
             android:label="@string/title_activity_tweet"
+            android:parentActivityName=".activities.TimelineActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.TimelineActivity" />
         </activity>
         <activity
             android:name=".activities.ProfileActivity"

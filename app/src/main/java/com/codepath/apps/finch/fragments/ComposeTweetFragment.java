@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,7 +103,11 @@ public class ComposeTweetFragment extends DialogFragment {
     public void textChanged (CharSequence text) {
         int remaining = TWEET_LENGTH - text.length();
 
-        tvCharCount.setText("" + remaining);
+        if (remaining <= 0) {
+            tvCharCount.setText("Tweetstorm");
+        } else {
+            tvCharCount.setText("" + remaining);
+        }
     }
 
     @OnClick(R.id.submit)
@@ -109,6 +117,74 @@ public class ComposeTweetFragment extends DialogFragment {
 
         progressBar.setVisibility( ProgressBar.VISIBLE );
 
+        // Manipulate tweetbody here
+        if (tweetBody.length() <= 140) {
+            postTweet(tweetBody);
+        } else { // Case: tweetstorm
+            ArrayList<String> tweetStorms = separateIntoTweets(tweetBody);
+            postTweetInOrder(tweetStorms);
+        }
+
+    }
+
+    public ArrayList<String> separateIntoTweets(String tweetBody) {
+        String[] tweetAsArr = tweetBody.split(" ");
+        ArrayList<String> newTweets = new ArrayList<>();
+        int currentLength = 1;
+        int floor = 0;
+        int ceiling = 0;
+
+        for (int i = 0; i < tweetAsArr.length; i++) {
+
+            if (currentLength + tweetAsArr[i].length() <= TWEET_LENGTH - 15 ) {
+                ceiling = i;
+                currentLength += tweetAsArr[i].length() + 1; // The 1 is for the space
+            } else {
+                String[] subTweetArr =  Arrays.copyOfRange(tweetAsArr, floor, i);
+                String subTweet = newTweets.size() + 1  + "/ " + TextUtils.join(" ", subTweetArr);
+                newTweets.add(subTweet);
+                floor = i;
+                currentLength = 1;
+            }
+        }
+
+        if (floor < tweetAsArr.length) {
+            String[] subTweetArr =  Arrays.copyOfRange(tweetAsArr, floor, tweetAsArr.length);
+            String subTweet = newTweets.size() + 1 +  "/ " + TextUtils.join(" ", subTweetArr);
+            newTweets.add(subTweet);
+        }
+
+        return newTweets;
+    }
+
+    public void postTweetInOrder(final ArrayList<String> tweets) {
+        String tweetBody = tweets.remove(0);
+
+        client.postNewTweet(replyToTweet, tweetBody, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Tweet tweet = Tweet.fromJSON(response); //Not currently being used
+
+                if (tweets.size() > 0) {
+                    postTweetInOrder(tweets); // Recursive call
+                } else {
+                    progressBar.setVisibility( ProgressBar.INVISIBLE );
+                    dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Util.handleJsonFailure(errorResponse);
+                return;
+            }
+        });
+    }
+
+    public void postTweet(String tweetBody) {
+
         client.postNewTweet(replyToTweet, tweetBody, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -116,7 +192,7 @@ public class ComposeTweetFragment extends DialogFragment {
 
                 Tweet tweet = Tweet.fromJSON(response);
 
-                if (replyToTweet != null) {
+                if (replyToTweet != null) { //Not currently doing anything
                     /* Routes Back to Timeline, then reloads it */
                     ((TweetDetailCommunicator) activity).onTweetPost();
 

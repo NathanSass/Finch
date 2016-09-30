@@ -41,6 +41,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     @BindView(R.id.etTweetBody)
     EditText etTweetBody;
+
     @BindView(R.id.pbLoading)
     ProgressBar progressBar;
 

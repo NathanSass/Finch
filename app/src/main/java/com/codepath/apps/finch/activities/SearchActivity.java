@@ -37,7 +37,6 @@ public class SearchActivity extends AppCompatActivity implements TweetListFragme
         upArrow.setColorFilter(ContextCompat.getColor(this, R.color.twitBlue), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-
         ButterKnife.bind(this);
 
         query = getIntent().getStringExtra("query");
