@@ -10,6 +10,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ivBackArrow"
+            android:layout_width="@dimen/back_arrow_size"
+            android:layout_height="@dimen/back_arrow_size"
+            android:layout_marginLeft="@dimen/back_arrow_margin"
+            android:layout_marginTop="@dimen/back_arrow_margin"
+            android:src="@drawable/ic_arrow_back_grey"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -19,20 +26,25 @@
             android:id="@+id/etTweetBody"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/ivBackArrow"
             android:layout_centerHorizontal="true"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="Tweet"
             android:minHeight="35dp"
             android:minWidth="60dp"
-            android:id="@+id/submit"
             android:textColor="@color/appBackground"
             android:background="@color/twitBlue"
-            android:layout_below="@+id/etTweetBody"
+            android:layout_below="@+id/tvCharCount"
             android:layout_centerHorizontal="true"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -74,6 +74,13 @@ public class ComposeTweetFragment extends DialogFragment {
         this.activity = activity;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Makes the dialog take up the whole screen
+        setStyle(STYLE_NO_FRAME, android.R.style.Theme_Holo_Light);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -108,6 +115,11 @@ public class ComposeTweetFragment extends DialogFragment {
         } else {
             tvCharCount.setText("" + remaining);
         }
+    }
+
+    @OnClick(R.id.ivBackArrow)
+    public void upBottonClick() {
+        dismiss();
     }
 
     @OnClick(R.id.submit)
