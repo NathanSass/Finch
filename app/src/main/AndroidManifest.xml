@@ -2,7 +2,7 @@
 <manifest package="com.codepath.apps.finch"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionCode="1"
-          android:versionName="1.0">
+          android:versionName="1.1">
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -18,7 +18,7 @@
     <application
         android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_finch_launcher"
+        android:icon="@mipmap/ic_finch_launcher_shado"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <meta-data
