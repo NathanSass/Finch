@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.finch.R;
@@ -57,7 +56,6 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ButterKnife.bind(this);
 
@@ -171,8 +169,8 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
 
         int searchEditId = android.support.v7.appcompat.R.id.search_src_text;
         EditText et = (EditText) searchView.findViewById(searchEditId);
-        et.setTextColor(ContextCompat.getColor(context, R.color.lightText));
-        et.setHintTextColor(ContextCompat.getColor(context, R.color.twitSecondary));
+        et.setHintTextColor(ContextCompat.getColor(context, R.color.lightText));
+        et.setTextColor(ContextCompat.getColor(context, R.color.toolBarTitleColor));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -201,10 +199,10 @@ public class TimelineActivity extends AppCompatActivity implements TweetListFrag
     public void onTweetPost(Tweet tweet) {
         //TODO: make this auto scroll
         if (vpPager.getCurrentItem() == 0) {
-            Toast.makeText(this, "In tweets timeline", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "In tweets timeline", Toast.LENGTH_SHORT).show();
 
         } else if ( vpPager.getCurrentItem() == 1) {
-            Toast.makeText(this, "In mentions fragment", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "In mentions fragment", Toast.LENGTH_SHORT).show();
         }
     }
 }
